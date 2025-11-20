@@ -54,7 +54,7 @@ function Login() {
         <h1 className="text-2xl font-bold mb-4">로그인</h1>
         <button
           onClick={signInWithGithub} // 버튼 클릭 시 GitHub으로 로그인 함수 호출
-          className=" flex flex-row bg-zinc-600 text-white rounded hover:bg-zinc-500"
+          className=" flex flex-row bg-zinc-700 text-white rounded hover:bg-zinc-600"
         >
           <FaGithub className='m-3 mx-10 text-4xl'/>
         </button>
@@ -67,7 +67,7 @@ function Login() {
 
       <div className="flex flex-col items-center justify-center h-full">
         {/* 사용자 이름 또는 이메일을 환영 메시지에 표시 */}
-        <FaGithub className='text-6xl mb-5'/>
+        <FaGithub className='text-6xl mb-5 '/>
 
         <h1 className="text-2xl font-bold mb-4">환영합니다, {user?.user_metadata?.user_name || user?.email}!</h1>
         {/* 사용자 이메일 표시 */}
@@ -75,7 +75,7 @@ function Login() {
         
         <button
           onClick={signOut} // 버튼 클릭 시 로그아웃 함수 호출
-          className="px-4 py-2 bg-zinc-500 text-white rounded hover:bg-red-700 transition-all  duration-200 ease-in-out"
+          className="px-4 py-2 bg-zinc-800 border-1 border-yellow-400 text-white font-semibold rounded hover:border-red-600 transition-all  duration-200 ease-in-out"
         >
           로그아웃
         </button>

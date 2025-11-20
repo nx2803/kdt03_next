@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <header className="">
-      <nav className=" flex flex-row items-center justify-between font-bold ">
+      <nav className=" flex flex-row items-center justify-between font-bold border-b-1 border-yellow-400 ">
         <Link href="/" className="font-bold cursor-pointer text-2xl text-zinc-100 hover:text-zinc-400 transition-all  duration-200 ease-in-out p-4">KDT React</Link>
        
         {!session ? <></> :
@@ -24,18 +24,14 @@ export default function Header() {
             <Link href="/Festival" className="cursor-pointer hover:text-yellow-400 transition-all  duration-200 ease-in-out">축제</Link>
             <Link href="/ToDoList" className="cursor-pointer hover:text-yellow-400 transition-all  duration-200 ease-in-out">Todo</Link>
             <Link href="/TestTs" className="cursor-pointer hover:text-yellow-400 transition-all  duration-200 ease-in-out">TestTs</Link>
-            <Link href="/"
-              onClick={signOut} // 버튼 클릭 시 로그아웃 함수 호출
-              className=" cursor-pointer hover:text-zinc-400 transition-all  duration-200 ease-in-out text-white rounded "
-            >
-              로그아웃
-            </Link>
+            <Link href="/" className=" cursor-pointer hover:text-yellow-400 transition-all  duration-200 ease-in-out text-white rounded " onClick={signOut} // 버튼 클릭 시 로그아웃 함수 호출
+            >로그아웃</Link>
 
 
           </ul>
         }
       </nav>
-      <div className="h-0.5 bg-yellow-400" />
+      {/* <div className="h-0.5 bg-yellow-400" /> */}
     </header>
   )
 

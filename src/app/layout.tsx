@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="w-full h-screen flex flex-col overflow-y-auto bg-linear-to-br from-stone-950 via-stone-800 to-zinc-950 ">
+        <div className="w-full h-screen flex flex-col overflow-y-auto bg-linear-to-br from-stone-950 via-stone-800 to-stone-950 ">
           <Header />
           <main className="container mx-auto grow flex flex-col">
             {children}
