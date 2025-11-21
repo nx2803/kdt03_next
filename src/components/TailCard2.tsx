@@ -20,7 +20,7 @@ export default function TailCard({ itemid, item, img } : TailCardProps) {
         <div
             data-id={itemid}
             className='relative w-full h-96 rounded overflow-hidden shadow-2xl cursor-pointer 
-                       hover:ring-3 hover:ring-white transition-all duration-300 group'>
+                       hover:ring-2 hover:ring-yellow-400 transition-all duration-300 group'>
 
             <img className='absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105' src={img} alt={title}/>
 
@@ -28,13 +28,13 @@ export default function TailCard({ itemid, item, img } : TailCardProps) {
 
             <div className='absolute bottom-0 left-0 right-0 p-5 z-10 text-white flex flex-col space-y-2'>
 
-                <h1 className='text-2xl font-extrabold line-clamp-2 border-b-2 pb-2 border-white' title={title}>
+                <h1 className='text-2xl font-extrabold line-clamp-2 border-b-2 pb-2 text-center border-white' title={title}>
                     {title}
                 </h1>
 
-                <p className='text-sm text-gray-300'>{location}</p>
+                <p className='text-sm text-gray-300 text-center'>{location}</p>
 
-                <p className='text-white font-bold '>
+                <p className='text-white font-bold text-center '>
                     {day}
                 </p>
             </div>
