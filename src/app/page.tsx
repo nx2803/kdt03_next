@@ -75,7 +75,7 @@ function Login() {
         
         <button
           onClick={signOut} // 버튼 클릭 시 로그아웃 함수 호출
-          className="px-4 py-2 bg-zinc-800 border-1 border-yellow-400 text-white font-semibold rounded hover:border-red-600 transition-all  duration-200 ease-in-out"
+          className="px-4 py-2 bg-zinc-700/40 border border-yellow-500 text-white font-semibold rounded hover:border-red-600 transition-all  duration-200 ease-in-out"
         >
           로그아웃
         </button>

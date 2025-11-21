@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="">
       <nav className=" flex flex-row items-center justify-between font-bold border-b-1 border-yellow-400 ">
-        <Link href="/" className="font-bold cursor-pointer text-2xl text-zinc-100 hover:text-zinc-400 transition-all  duration-200 ease-in-out p-4">KDT React</Link>
+        <Link href="/" className="font-bold cursor-pointer text-2xl text-zinc-100 hover:text-yellow-400 transition-all  duration-200 ease-in-out p-4">KDT React</Link>
        
         {!session ? <></> :
           <ul className="flex space-x-4 text-xl p-4 text-neutral-100">
