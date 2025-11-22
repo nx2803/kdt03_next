@@ -55,7 +55,7 @@ function Login() {
         <h1 className="text-2xl font-bold mb-4">로그인</h1>
         <button
           onClick={signInWithGithub} // 버튼 클릭 시 GitHub으로 로그인 함수 호출
-          className=" flex flex-row bg-zinc-700 text-white rounded hover:bg-zinc-600"
+          className=" flex flex-row cursor-pointer bg-zinc-700 text-white rounded hover:bg-zinc-600"
         >
           <FaGithub className='m-3 mx-10 text-4xl' />
         </button>

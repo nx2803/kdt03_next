@@ -14,86 +14,75 @@ interface FestivalItem {
 
 export default function FestGallary() {
 
-    const initialGugun = 
-        (typeof window !== 'undefined' && sessionStorage.getItem(SESSION_KEY)) || '전체';
-    const [selectedGugun, setSelectedGugun] = useState(initialGugun);
-    
     const [originalData, setOriginalData] = useState<FestivalItem[]>([]);
     const [tdata, setTdata] = useState<FestivalItem[]>([]);
     const [gdata, setGdata] = useState<string[]>(['전체']);
+    const [selectedGugun, setSelectedGugun] = useState('전체');
 
     const baseurl = 'https://apis.data.go.kr/6260000/FestivalService/getFestivalKr';
 
-    const handleFilter = (gugun: string) => {
-        const selectedValue = gugun;
-        
-        sessionStorage.setItem(SESSION_KEY, selectedValue);
-
-        if (selectedValue === '전체') {
-            setTdata(originalData);
+    const handleFilter = (gugun: string, dataToFilter: FestivalItem[]) => {
+        if (gugun === '전체') {
+            setTdata(dataToFilter);
         } else {
-            const filtered = originalData.filter(item => item.GUGUN_NM === selectedValue);
+            const filtered = dataToFilter.filter(item => item.GUGUN_NM === gugun);
             setTdata(filtered);
         }
     };
     
-    const handleChange = (e: { target: { value: any; }; }) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newGugun = e.target.value;
         setSelectedGugun(newGugun);
-        handleFilter(newGugun);
+        sessionStorage.setItem(SESSION_KEY, newGugun);
+        handleFilter(newGugun, originalData);
     }
 
+    useEffect(() => {
+        const getFetchData = async () => {
+            let url = `${baseurl}?serviceKey=${apikey}&pageNo=1&numOfRows=50&resultType=json`;
 
-    const getFetchData = async () => {
-        let url = `${baseurl}?serviceKey=${apikey}&pageNo=1&numOfRows=50&resultType=json`;
-
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) {
-                const text = await resp.text();
-                throw new Error(`HTTP Error ${resp.status}: ${text}`);
-            }
-            const tdataJson = await resp.json();
-
-            let dataArray = tdataJson.getFestivalKr?.item;
-
-            if (dataArray) {
-                if (!Array.isArray(dataArray)) {
-                    dataArray = [dataArray];
+            try {
+                const resp = await fetch(url);
+                if (!resp.ok) {
+                    const text = await resp.text();
+                    throw new Error(`HTTP Error ${resp.status}: ${text}`);
                 }
+                const tdataJson = await resp.json();
 
-                setOriginalData(dataArray);
-                
-                const guguns = dataArray
-                    .map((item: { GUGUN_NM: any; }) => item.GUGUN_NM)
-                    .filter((gugun: any, index: any, self: string | any[]) => gugun && self.indexOf(gugun) === index)
-                    .sort();
+                let dataArray = tdataJson.getFestivalKr?.item;
 
-                setGdata(['전체', ...guguns]);
-                const initialFilterValue = sessionStorage.getItem(SESSION_KEY) || '전체';
-                
-                if (initialFilterValue !== '전체') {
-                    const filtered = dataArray.filter((item: { GUGUN_NM: string; }) => item.GUGUN_NM === initialFilterValue);
-                    setTdata(filtered);
+                if (dataArray) {
+                    if (!Array.isArray(dataArray)) {
+                        dataArray = [dataArray];
+                    }
+
+                    setOriginalData(dataArray);
+                    
+                    const guguns = dataArray
+                        .map((item: { GUGUN_NM: any; }) => item.GUGUN_NM)
+                        .filter((gugun: any, index: any, self: string | any[]) => gugun && self.indexOf(gugun) === index)
+                        .sort();
+
+                    setGdata(['전체', ...guguns]);
+                    
+                    const initialFilterValue = sessionStorage.getItem(SESSION_KEY) || '전체';
+                    setSelectedGugun(initialFilterValue);
+                    handleFilter(initialFilterValue, dataArray);
+
                 } else {
-                    setTdata(dataArray);
+                    console.warn("오류:", tdataJson);
+                    setOriginalData([]);
+                    setTdata([]);
+                    setGdata(['전체']);
                 }
-
-            } else {
-                console.warn("오류:", tdataJson);
+            } catch (err) {
+                console.error("Fetch Error:", err);
                 setOriginalData([]);
                 setTdata([]);
                 setGdata(['전체']);
             }
-        } catch (err) {
-            console.error("Fetch Error:", err);
-            setOriginalData([]);
-            setTdata([]);
-            setGdata(['전체']);
         }
-    }
 
-    useEffect(() => {
         getFetchData();
     }, []);
 
