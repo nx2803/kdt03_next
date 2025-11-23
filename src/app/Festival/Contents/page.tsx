@@ -1,4 +1,4 @@
-'use client'
+
 import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from "next/navigation";
 import map from '@/assets/map.png';
@@ -119,7 +119,6 @@ export default function FestivalContents() {
                     {title}
                 </h1>
             </div>
-
 
 
             <div className='absolute bottom-0 left-0 right-0 p-6 z-10 text-white flex flex-col space-y-4 '>
