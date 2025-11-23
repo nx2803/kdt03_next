@@ -112,7 +112,7 @@ export default function FestGallary() {
                 {
                     tdata.map((item, idx) => (
                         // <Link href={{pathname: "/festival/contents", query: {uc_seq: item.UC_SEQ}}} key={item.UC_SEQ + idx}>
-                            <Link href={`/Festival/Contents?uc_seq=${item.UC_SEQ}`} key={item.UC_SEQ + idx}>
+                            <Link href={`/Contents?uc_seq=${item.UC_SEQ}`} key={item.UC_SEQ + idx}>
                             <TailCard2
                                 itemid={item.UC_SEQ}
                                 item={item}
