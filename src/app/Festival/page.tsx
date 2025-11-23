@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 const apikey = process.env.NEXT_PUBLIC_TRA_API;
 const SESSION_KEY = 'selectedGugun';
+const alldata = 'allFestivalData';
 interface FestivalItem {
     UC_SEQ: number;
     GUGUN_NM: string;
@@ -57,6 +58,8 @@ export default function FestGallary() {
                     }
 
                     setOriginalData(dataArray);
+
+                    sessionStorage.setItem(alldata, JSON.stringify(dataArray));
                     
                     const guguns = dataArray
                         .map((item: { GUGUN_NM: any; }) => item.GUGUN_NM)

@@ -5,6 +5,9 @@ import map from '@/assets/map.png';
 import Image from 'next/image';
 import load from '@/assets/load.gif'
 
+
+const ALL_FESTIVALS_KEY = 'allFestivalData';
+
 interface FestivalItem {
     UC_SEQ: number;
     MAIN_TITLE: string;
@@ -13,83 +16,75 @@ interface FestivalItem {
     LAT: number;
     LNG: number;
     ITEMCNTNTS: string;
+    ADDR1: string;
     USAGE_DAY_WEEK_AND_TIME?: string;
     CNTCT_TEL?: string;
     HOMEPAGE_URL?: string;
     [key: string]: any;
 }
-const apikey = process.env.NEXT_PUBLIC_TRA_API;
-const baseurl = 'https://apis.data.go.kr/6260000/FestivalService/getFestivalKr';
+
 
 export default function FestivalContents() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const ucSeq = searchParams.get('uc_seq');
 
-    const [contents, setContents] = useState<Partial<FestivalItem>>({});
-    const [isLoading, setIsLoading] = useState(true);
+    const [contents, setContents] = useState<FestivalItem | null>(null);
+    const [isDataReady, setIsDataReady] = useState(false); // 로딩 상태 변경
 
     const handleClose = () => {
-        router.back(); 
+        router.back();
     };
 
 
-    const getContentsData = async (seq: string) => {
-        setIsLoading(true);
+    useEffect(() => {
 
-        let url = `${baseurl}?serviceKey=${apikey}&pageNo=1&numOfRows=100&resultType=json`;
+        if (!ucSeq || typeof window === 'undefined') {
+            setIsDataReady(true);
+            return;
+        }
+
         try {
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error(`HTTP Error ${resp.status}`);
 
-            const tdataJson = await resp.json();
-            let dataArray = tdataJson.getFestivalKr?.item;
+            const storedData = sessionStorage.getItem(ALL_FESTIVALS_KEY);
 
-            if (dataArray && !Array.isArray(dataArray)) {
-                dataArray = [dataArray];
-            }
+            if (storedData) {
+                const dataArray: FestivalItem[] = JSON.parse(storedData);
 
-            if (dataArray) {
-                const foundItem = dataArray.find((item: FestivalItem) => item.UC_SEQ.toString() === seq);
-                if (foundItem) {
+
+                const foundItem = dataArray.find(item => item.UC_SEQ.toString() === ucSeq);
+
+                if (foundItem)
                     setContents(foundItem);
-                } else {
-                    console.error("해당 ID의 축제 정보를 찾을 수 없습니다.");
-                }
             }
         } catch (err) {
-            console.error("Fetch Error:", err);
-        } finally {
-            setIsLoading(false);
-        }
-    }
+            console.error("오류:", err);
 
-    useEffect(() => {
-        if (ucSeq) {
-            getContentsData(ucSeq);
-        } else {
-            setIsLoading(false);
+        } finally {
+            setIsDataReady(true);
         }
     }, [ucSeq]);
 
-    if (isLoading) {
+
+
+    if (!isDataReady) {
         return (
-            <div className='flex justify-center  items-center h-screen text-4xl'>
-                <Image src={load} width={100} height={100} alt="로딩중" />
+            <div className='flex justify-center items-center h-screen text-4xl'>
+                <Image src={load} width={100} height={100} alt="데이터 준비 중" />
             </div>
         );
     }
 
-    if (!contents.MAIN_TITLE) {
+
+    if (!contents || !contents.MAIN_TITLE) {
         return (
             <div className='flex justify-center items-center h-screen text-4xl flex-col'>
-                <p>축제 정보가 없습니다.</p>
+                <p>축제 정보가 없거나 세션이 만료되었습니다.</p>
                 <button onClick={handleClose} className='mt-4 text-xl text-blue-500'>돌아가기</button>
             </div>
         );
     }
 
-    // ... (기존 렌더링 로직은 그대로 사용)
     const OverlayClasses = 'absolute inset-0 bg-black/20';
     let title = (contents.MAIN_TITLE || '제목 없음').replace(/\s*\(\s*한\s*,\s*영\s*,\s*중간\s*,\s*중번\s*,\s*일\s*\)/, '');
     const kakaoMapUrl =
@@ -100,13 +95,13 @@ export default function FestivalContents() {
             data-id={contents.UC_SEQ}
             className='relative w-full grow rounded-xl overflow-hidden shadow-2xl '
         >
-            {/* ... (이하 렌더링 코드는 기존과 동일) */}
+
+
             <img
                 className='absolute inset-0 w-full h-full object-cover '
                 src={contents.MAIN_IMG_NORMAL}
                 alt={title}
             />
-
 
             <div className={OverlayClasses}></div>
             <button
@@ -130,7 +125,7 @@ export default function FestivalContents() {
             <div className='absolute bottom-0 left-0 right-0 p-6 z-10 text-white flex flex-col space-y-4 '>
                 <div className='pt-8'>
                     <div className='grid grid-cols-2 gap-x-4 gap-y-2 text-3xl'>
-                        <div className='flex flex-col  space-y-2 '>
+                        <div className='flex flex-col  space-y-2 '>
                             <p>주소</p>
                             {contents.USAGE_DAY_WEEK_AND_TIME && <p>날짜</p>}
                             {contents.CNTCT_TEL && <p>전화번호</p>}
@@ -142,7 +137,7 @@ export default function FestivalContents() {
                                 <Image
                                     src={map}
                                     alt="카카오맵"
-                                    width={30}   
+                                    width={30}
                                     height={24}
                                 />
                             </a></p>
