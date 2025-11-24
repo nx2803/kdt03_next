@@ -20,7 +20,7 @@ export default function TailCard({ itemid, item, img } : TailCardProps) {
         <div
             data-id={itemid}
             className='relative w-full h-96 rounded overflow-hidden shadow-2xl cursor-pointer 
-                       hover:ring-2 hover:ring-yellow-400 transition-all duration-300 group'>
+                       hover:ring-2 hover:ring-red-600 transition-all duration-300 group'>
 
             <img className='absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105' src={img} alt={title}/>
 

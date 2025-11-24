@@ -58,7 +58,7 @@ export default function ToDoList() {
             <div className="mt-10 text-5xl font-semibold text-center flex flex-row ">
                 할일 목록(<RiSupabaseFill className='mr-3 text-[#3ecf8e]' />    {' Client 라이브러리 함수'})
             </div>
-            <div className='w-200 h-10 my-10 text-white bg-neutral-600/80 rounded text-center flex justify-center items-center'>
+            <div className='w-200 h-10 my-10 text-white bg-neutral-700/80 rounded text-center flex justify-center items-center'>
 
                 전체 : {todos.length} 개 | 완료 : {comp} 개 | 미완료 : {todos.length - comp} 개
             </div>

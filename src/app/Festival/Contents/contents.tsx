@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from "next/navigation";
 import map from '@/assets/map.png';
 import Image from 'next/image';
-import load from '@/assets/load.gif'
+
 
 
 const ALL_FESTIVALS_KEY = 'allFestivalData';
@@ -70,7 +70,7 @@ export default function FestivalContents() {
     if (!isDataReady) {
         return (
             <div className='flex justify-center items-center h-screen text-4xl'>
-                <Image src={load} width={100} height={100} alt="데이터 준비 중" />
+                
             </div>
         );
     }
@@ -93,7 +93,7 @@ export default function FestivalContents() {
     return (
         <div
             data-id={contents.UC_SEQ}
-            className='relative w-full grow rounded-xl overflow-hidden shadow-2xl '
+            className='relative w-full grow overflow-hidden shadow-2xl '
         >
 
 

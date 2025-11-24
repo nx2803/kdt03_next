@@ -102,7 +102,7 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
                 </div>
                 :
                 <div className='flex flex-row gap-5'>
-                    <div className={` border-b-2 border-white flex justify-start px-5 items-center text-2xl w-150 font-bold ${todo.completed ? "line-through text-neutral-400" : ""} `}>
+                    <div className={`border-b-2 border-white flex justify-start px-5 items-center text-2xl w-150 font-bold ${todo.completed ? "line-through text-red-600/90" : ""} `}>
                         {todo.text}
                     </div>
 
