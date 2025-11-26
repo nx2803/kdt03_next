@@ -26,7 +26,7 @@ export default async function RestCard({ itemid, item} : TailCardProps) {
         <Link href={`/Restaurants/${itemid}`}
             data-id={itemid}
             className={`relative w-full h-96 rounded overflow-hidden shadow-2xl cursor-pointer 
-                       hover:ring-2 hover:ring-red-600 transition-all duration-300 group ${imageUrl?'' : 'bg-zinc-600/90'} `} >
+                       hover:ring-2 hover:ring-yellow-500 transition-all duration-300 group ${imageUrl?'' : 'bg-zinc-600/90'} `} >
 
             
             {imageUrl ? (

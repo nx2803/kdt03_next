@@ -15,15 +15,15 @@ export default function Header() {
 
   return (
     <header className="">
-      <nav className=" flex flex-row items-center justify-between font-bold bg-zinc-950/70 border-b-4 border-red-600/90 ">
-        <Link href="/" className="font-bold cursor-pointer text-2xl text-zinc-100 hover:text-red-600 transition-all  duration-200 ease-in-out p-4">KDT Next.js</Link>
+      <nav className=" flex flex-row items-center justify-between font-bold border-b-2 border-yellow-500 ">
+        <Link href="/" className="font-bold cursor-pointer text-2xl text-zinc-100 hover:text-yellow-500 transition-all  duration-200 ease-in-out p-4">KDT Next.js</Link>
 
 
         <ul className="flex space-x-4 text-xl p-4 text-neutral-100">
-          <Link href="/Lotto" className="cursor-pointer hover:text-red-600 transition-all  duration-200 ease-in-out">로또</Link>
-          <Link href="/Festival" className="cursor-pointer hover:text-red-600 transition-all  duration-200 ease-in-out">축제</Link>
-          <Link href="/ToDoList" className="cursor-pointer hover:text-red-600 transition-all  duration-200 ease-in-out">Todo</Link>
-          <Link href="/Restaurants" className="cursor-pointer hover:text-red-600 transition-all  duration-200 ease-in-out">맛집</Link>
+          <Link href="/Lotto" className="cursor-pointer hover:text-yellow-500 transition-all  duration-200 ease-in-out">로또</Link>
+          <Link href="/Festival" className="cursor-pointer hover:text-yellow-500 transition-all  duration-200 ease-in-out">축제</Link>
+          <Link href="/ToDoList" className="cursor-pointer hover:text-yellow-500 transition-all  duration-200 ease-in-out">Todo</Link>
+          <Link href="/Restaurants" className="cursor-pointer hover:text-yellow-500 transition-all  duration-200 ease-in-out">맛집</Link>
           
 
         </ul>

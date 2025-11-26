@@ -36,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${chiron.className} ${chiron.variable} antialiased`}
       >
-        <div className="w-full h-screen flex flex-col bg-linear-to-br from-zinc-800 via-neutral-400/80 to-zinc-800 text-white">
+        <div className="w-full h-screen flex flex-col bg-linear-to-br from-stone-900 via-zinc-800/80 to-stone-900 text-white">
           <Header />
           <main className=" overflow-y-auto scroll-smooth grow flex flex-col">
             {children}
