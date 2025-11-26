@@ -3,15 +3,14 @@ import React, { useEffect } from 'react'
 import TailButton from '@/components/TailButton'
 import { useRef } from 'react'
 import { FaPen } from "react-icons/fa";
-import { supabase } from "@/supabase/client";
+
 
 interface ToDoInputProps {
     getTodos: () => void;
 }
 
-export default function ToDoInput({ getTodos } : ToDoInputProps) {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABSE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABSE_KEY;
+export default function ToDoInput({ getTodos }: ToDoInputProps) {
+
     const inRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -20,24 +19,33 @@ export default function ToDoInput({ getTodos } : ToDoInputProps) {
 
 
     const handleAdd = async () => {
-        if(inRef.current === null) return;
+        if (inRef.current === null) return;
         if (inRef.current.value == "") {
             alert("값을 입력해 주세요.");
             inRef.current.focus();
             return
         }
-        const { data, error } = await supabase
-            .from('todos')
-            .insert([
-                { text: inRef.current.value, completed: false },
-            ]);
-        if (error) {
-            console.error('Error adding todo:', error);
-        } else {
-            await getTodos();
+        const api_url = '/api/todo';
+        try {
+            const response = await fetch(`${api_url}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: inRef.current.value, completed: false })
+            });
+            if (!response.ok) {
+                throw new Error('데이터 추가 실패');
+            }
+            
             inRef.current.value = "";
             inRef.current.focus();
+            await getTodos();
+            
+        } catch (error) {
+            console.error('Error adding todo:', error);
         }
+
 
     }
     const handleKeyDown = (e: { key: string; }) => {

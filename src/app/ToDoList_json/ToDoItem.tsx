@@ -6,7 +6,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { useRef } from 'react';
 import { MdOutlineCancel } from "react-icons/md";
 import { MdSaveAs } from "react-icons/md";
-import { supabase } from "@/supabase/client";
+
 import type { ToDo } from './page';
 interface ToDOItemProps {
     todo: ToDo;
@@ -14,22 +14,33 @@ interface ToDOItemProps {
     getTodos: () => void;
 }
 
-export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
+export default function ToDOItem({ todo, setTodos, getTodos }: ToDOItemProps) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABSE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABSE_KEY!;
     const inRef = useRef<HTMLInputElement>(null);
     // const [todos, setTodos] = useAtom(todosAtom);
     const [isEdit, setIsEdit] = useState(false);
     const [editText, setEditText] = useState(todo.text);
+    const API_URL = '/api/todo';
     const handleToggle = async () => {
-        const { error } = await supabase
-            .from('todos')
-            .update({ completed: !todo.completed })
-            .eq('id', todo.id);
-        if (error) {
-            console.error('Error toggling todo:', error);
-        } else {
-           await getTodos();
+        try {
+            
+            const response = await fetch(`${API_URL}?id=${todo.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ completed: !todo.completed }),
+            });
+
+            if (!response.ok) {
+                throw new Error('상태 업데이트 실패');
+            }
+
+            getTodos(); 
+
+        } catch (error) {
+            console.error('상태 업데이트 오류:', error);
         }
     }
     const handleCancel = () => {
@@ -38,13 +49,13 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
     }
 
     const handleSave = async () => {
-        if(inRef.current === null) return;
+        if (inRef.current === null) return;
         if (inRef.current.value == "") {
             alert("값을 입력해주세요.");
             inRef.current.focus();
             return;
         }
-        
+
         const response = await fetch(`${supabaseUrl}/rest/v1/todos?id=eq.${todo.id}`, {
             method: 'PATCH',
             headers: {
@@ -55,7 +66,7 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
             body: JSON.stringify({ text: inRef.current.value })
         });
         if (response.ok) {
-            await getTodos();
+            getTodos();
         } else {
             console.error('Error toggling todo:', response.statusText);
         }
@@ -63,19 +74,24 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
 
     }
     const handleDelete = async () => {
-        const { error } = await supabase
-            .from('todos')
-            .delete()
-            .eq('id', todo.id);
-        if (error) {
-            console.error('Error deleting todo:', error);
-        } else {
-            await getTodos();
+       try {
+            
+            const response = await fetch(`${API_URL}?id=${todo.id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('삭제 실패');
+            }
+            getTodos(); // 
+
+        } catch (error) {
+            console.error('삭제 오류:', error);
         }
     }
     const handleEdit = () => {
         setIsEdit(true)
-        if(inRef.current === null) return;
+        if (inRef.current === null) return;
         inRef.current.focus();
     }
 
@@ -98,7 +114,7 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
                         onChange={(e) => setEditText(e.target.value)} />
 
                     <TailButton color='gray' caption={<MdSaveAs className='text-3xl' />} onClick={handleSave} />
-                    <TailButton color='white' caption={<MdOutlineCancel className='text-3xl' />}onClick={handleCancel} /> 
+                    <TailButton color='white' caption={<MdOutlineCancel className='text-3xl' />} onClick={handleCancel} />
                 </div>
                 :
                 <div className='flex flex-row gap-5'>
@@ -108,7 +124,7 @@ export default function ToDOItem({ todo, setTodos, getTodos } : ToDOItemProps) {
 
 
                     <TailButton color='gray' caption={<FaEdit className='text-3xl' />} onClick={handleEdit} />
-                    <TailButton color='white' caption={<MdDeleteForever className='text-3xl'  />} onClick={handleDelete}/>
+                    <TailButton color='white' caption={<MdDeleteForever className='text-3xl' />} onClick={handleDelete} />
                 </div>
             }
 
