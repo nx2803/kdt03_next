@@ -118,27 +118,27 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-try {
-const searchParams = new URL(request.url).searchParams;
-const id = searchParams.get("id");
-if (!id) {
-return NextResponse.json({ error: "ID 파라미터가 필요합니다." }, { status: 400 });
-}
-const numericId = Number(id);
-const data = await getData();
-const index = data.findIndex((item) => item.UC_SEQ === numericId);
-if (index === -1) {
-return NextResponse.json({ error: "삭제할 데이터를 찾을 수 없습니다." }, { status: 404 });
-}
-// splice(인덱스, 개수): 해당 인덱스부터 1개를 잘라냄
-data.splice(index, 1);
-await writeData(data);
-return NextResponse.json({
-message: "데이터 삭제 완료",
-deletedId: numericId
-});
-} catch (error) {
-console.error("DELETE 요청 오류:", error);
-return NextResponse.json({ error: "데이터 삭제 중 서버 오류 발생" }, { status: 500 });
-}
+    try {
+        const searchParams = new URL(request.url).searchParams;
+        const id = searchParams.get("id");
+        if (!id) {
+            return NextResponse.json({ error: "ID 파라미터가 필요합니다." }, { status: 400 });
+        }
+        const numericId = Number(id);
+        const data = await getData();
+        const index = data.findIndex((item) => item.UC_SEQ === numericId);
+        if (index === -1) {
+            return NextResponse.json({ error: "삭제할 데이터를 찾을 수 없습니다." }, { status: 404 });
+        }
+        // splice(인덱스, 개수): 해당 인덱스부터 1개를 잘라냄
+        data.splice(index, 1);
+        await writeData(data);
+        return NextResponse.json({
+            message: "데이터 삭제 완료",
+            deletedId: numericId
+        });
+    } catch (error) {
+        console.error("DELETE 요청 오류:", error);
+        return NextResponse.json({ error: "데이터 삭제 중 서버 오류 발생" }, { status: 500 });
+    }
 }

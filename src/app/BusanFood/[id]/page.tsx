@@ -7,6 +7,7 @@ import { IoRestaurantOutline } from 'react-icons/io5';
 import map from "@/assets/map.png"
 import NotFound from '@/app/not-found';
 import { notFound } from 'next/navigation';
+import CloseButton from '@/components/CloseButton';
 
 
 interface RestaurantDetailProps {
@@ -67,13 +68,13 @@ export default async function RestaurantDetail({ params }: RestaurantDetailProps
 
 
           <div className={OverlayClasses}></div>
-          <Link href="/BusanFood"
+          {/* <Link href="/BusanFood"
 
             className='absolute top-4 right-4 z-50 text-3xl text-white bg-black/50 hover:bg-black/70 rounded-full w-13 h-13 flex items-center justify-center transition duration-200'
           >
             ✖
-          </Link>
-
+          </Link> */}
+          <CloseButton/>
           <div className='absolute top-0 left-0 right-0 p-4 z-20 text-white'>
             <h1
               className='text-5xl font-bold line-clamp-2 mt-5 text-center'

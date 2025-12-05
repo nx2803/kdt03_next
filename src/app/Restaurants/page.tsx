@@ -16,6 +16,7 @@ export default function RestaurantPage() {
                             key={item.UC_SEQ}
                             itemid={item.UC_SEQ}
                             item={item}
+                            route="Restaurants"
                         />
                     ))
                 }

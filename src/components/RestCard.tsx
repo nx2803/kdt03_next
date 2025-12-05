@@ -7,11 +7,12 @@ import Link from 'next/link';
 interface TailCardProps {
     itemid: number;
     item: any;
+    route: string;
 }
 
 
 
-export default async function RestCard({ itemid, item} : TailCardProps) {
+export default function RestCard({ itemid, item, route} : TailCardProps) {
     const imageUrl = item.MAIN_IMG_NORMAL;
     const title1 = item.MAIN_TITLE || '제목 없음';
     const title = title1.replace(/\s*\(\s*한\s*,\s*영\s*,\s*중간\s*,\s*중번\s*,\s*일\s*\)/, '');
@@ -23,13 +24,13 @@ export default async function RestCard({ itemid, item} : TailCardProps) {
 
     return (
 
-        <Link href={`/Restaurants/${itemid}`}
+        <Link href={`${route}/${itemid}`}
             data-id={itemid}
-            className={`relative w-full h-96 rounded overflow-hidden shadow-2xl cursor-pointer 
+            className={`relative w-full h-80 rounded overflow-hidden shadow-2xl cursor-pointer 
                        hover:ring-2 hover:ring-yellow-500 transition-all duration-300 group ${imageUrl?'' : 'bg-zinc-600/90'} `} >
 
             
-            {imageUrl ? (
+            {imageUrl!='null' && imageUrl ? (
                
                 <Image 
                     className='absolute inset-0 object-cover transition-transform duration-500 group-hover:scale-105' 
@@ -40,7 +41,7 @@ export default async function RestCard({ itemid, item} : TailCardProps) {
             ) : (
                
                 <IoRestaurantOutline 
-                    className='w-full h-full p-15  text-white transition-transform duration-500 group-hover:scale-105' 
+                    className='w-full h-full p-15 bg-zinc-700/90 text-yellow-500 transition-transform duration-500 group-hover:scale-105' 
                 />
             )}
 
